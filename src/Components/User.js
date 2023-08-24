@@ -2,16 +2,18 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { Delete, Get } from "../Redux/Action/Action";
 
 function User() {
-  const [users, setUsers] = useState([]);
+  const dispatch = useDispatch()
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((res) => setUsers(res.data))
-      .catch((Error) => console.log(Error));
+   dispatch(Get())
   }, []);
-  console.log(users);
+  const products=useSelector(state=>state.products)
+  console.log(products);
+  
+  
   return (
     <div
       style={{
@@ -21,14 +23,15 @@ function User() {
         justifyContent: "center",
       }}
     >
-      {users.map((e) => (
+      {products.map((e) => (
         <div>
           <Card style={{ width: "18rem" }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
+            <Card.Img variant="top" src={e.image_url} />
             <Card.Body>
-              <Card.Title>{e.name}</Card.Title>
-              <Card.Text>{e.email}</Card.Text>
+              <Card.Title>{e.product_name}</Card.Title>
+              <Card.Text>{e.description}</Card.Text>
               <Button variant="primary">Go somewhere</Button>
+              <Button variant='danger' onClick={()=>dispatch(Delete(e.id))}>Delete</Button>
             </Card.Body>
           </Card>
         </div>

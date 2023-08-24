@@ -1,14 +1,14 @@
 import { GET } from "../Actiontype/Actiontype"
 
 const initialState = {
-    users: []
+    products: []
 }
 
 const Reducer =  (state = initialState, { type, payload }) => {
   switch (type) {
 
   case GET:
-    return { ...state, users: [...state.users, payload]}
+    return { ...state, products:payload}
 
   default:
     return state
